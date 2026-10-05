@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQLStudio Pro | Visual Database IDE & ERD Visualizer by Khushi</title>
+  <meta name="description" content="Next-generation browser SQL IDE, interactive schema builder, and query execution engine developed by Khushi.">
+  <meta name="author" content="Khushi">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Studio Top Navigation -->
+  <header class="studio-nav">
+    <div class="nav-left">
+      <div class="logo">
+        <i class="fa-solid fa-database text-cyan"></i>
+        <span>SQL<strong class="text-accent">Studio</strong> Pro</span>
+      </div>
+      <div class="db-badge">
+        <span class="online-dot"></span>
+        <span>MySQL 8.4 In-Memory Engine</span>
+      </div>
+    </div>
+
+    <div class="nav-center">
+      <div class="schema-picker">
+        <label><i class="fa-solid fa-server"></i> Active Database:</label>
+        <select id="schema-select" class="styled-select">
+          <option value="ecommerce">E-Commerce Platform (6 Tables)</option>
+          <option value="university">University System (5 Tables)</option>
+          <option value="streaming">Cloud Streaming Service (4 Tables)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <a href="https://portfolio-nine-alpha-m0jhu0c4o1.vercel.app" target="_blank" class="dev-badge">
+        <i class="fa-solid fa-code"></i> Developed by Khushi
+      </a>
+      <button id="export-csv-btn" class="btn btn-sm btn-secondary"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+      <button id="run-btn" class="btn btn-sm btn-primary"><i class="fa-solid fa-play"></i> Run Query</button>
+    </div>
+  </header>
+
+  <!-- Workspace Main -->
+  <main class="studio-workspace">
+    <!-- Left Sidebar: Schema Explorer -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span><i class="fa-solid fa-folder-tree text-accent"></i> Schema Explorer</span>
+        <button id="refresh-schema" class="icon-tool-btn" title="Refresh"><i class="fa-solid fa-arrows-rotate"></i></button>
+      </div>
+
+      <div class="tables-tree" id="tables-tree">
+        <!-- Rendered via JS -->
+      </div>
+
+      <div class="sidebar-section">
+        <span class="section-heading"><i class="fa-solid fa-bolt text-accent"></i> Quick Queries</span>
+        <div class="quick-queries-list" id="quick-queries">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center & Right: Editor, ER Diagram & Query Results -->
+    <section class="main-content">
+      <!-- Tabs (SQL Editor / ERD Diagram) -->
+      <div class="workspace-tabs">
+        <button class="tab-btn active" data-tab="editor"><i class="fa-solid fa-terminal"></i> Query Editor &amp; Results</button>
+        <button class="tab-btn" data-tab="erd"><i class="fa-solid fa-diagram-project"></i> Interactive ER Diagram</button>
+        <button class="tab-btn" data-tab="explain"><i class="fa-solid fa-chart-gantt"></i> Query Explain Plan</button>
+      </div>
+
+      <!-- Tab View 1: Editor & Results -->
+      <div class="tab-pane active" id="pane-editor">
+        <div class="editor-container">
+          <textarea id="sql-editor" spellcheck="false">SELECT o.id AS order_id, c.name AS customer_name, c.email, o.total_amount, o.order_date, o.status
+FROM orders o
+JOIN customers c ON o.customer_id = c.id
+WHERE o.total_amount > 100
+ORDER BY o.total_amount DESC;</textarea>
+        </div>
+
+        <div class="execution-bar">
+          <div class="exec-info">
+            <span id="exec-status"><i class="fa-solid fa-check text-accent"></i> Ready</span>
+            <span id="exec-time">Execution Time: 0.38 ms</span>
+            <span id="exec-rows">Rows: 0</span>
+          </div>
+          <div class="exec-actions">
+            <button id="clear-editor-btn" class="text-btn"><i class="fa-solid fa-trash"></i> Clear</button>
+            <button id="format-sql-btn" class="text-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Beautify</button>
+          </div>
+        </div>
+
+        <div class="results-container">
+          <div id="results-table-wrapper">
+            <!-- Dynamic SQL Table -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab View 2: Interactive ERD Visualizer -->
+      <div class="tab-pane" id="pane-erd">
+        <div class="erd-canvas-container" id="erd-container">
+          <svg id="erd-svg" class="erd-svg"></svg>
+          <div class="erd-nodes-layer" id="erd-nodes">
+            <!-- Interactive draggable table nodes -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab View 3: Query Explain Plan -->
+      <div class="tab-pane" id="pane-explain">
+        <div class="explain-container" id="explain-container">
+          <!-- Dynamic execution plan breakdown -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
